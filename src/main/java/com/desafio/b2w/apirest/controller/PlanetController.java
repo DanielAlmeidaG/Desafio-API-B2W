@@ -24,7 +24,7 @@ import com.desafio.b2w.apirest.repository.PlanetRepository;
 @RequestMapping("/planets")
 public class PlanetController {
 	
-	@Autowired 
+	@Autowired  
 	PlanetRepository repository;
 
 	@GetMapping("/")
