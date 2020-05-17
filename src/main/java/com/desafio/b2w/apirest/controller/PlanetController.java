@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.desafio.b2w.apirest.exception.PlanetNotFoundException;
 import com.desafio.b2w.apirest.model.Planet;
 import com.desafio.b2w.apirest.model.PlanetIn;
 import com.desafio.b2w.apirest.repository.PlanetRepository;
@@ -34,7 +35,13 @@ public class PlanetController {
 	
 	@GetMapping("/{id}")
 	public Optional<Planet> findById(@PathVariable(value="id", required = true)	 String id){ 
-		return repository.findById(id);
+		Optional<Planet> tempPlanet = repository.findById(id);
+
+		if(tempPlanet.toString().equals("Optional.empty")) {
+			throw new PlanetNotFoundException("Planet not found with id: " + id);
+		}
+	
+		return tempPlanet;
 	}
 	
 	@GetMapping("/searchPlanet{name}")
