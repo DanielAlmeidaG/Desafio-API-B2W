@@ -7,6 +7,8 @@ import javax.validation.Valid;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,28 +31,48 @@ public class PlanetController {
 	PlanetRepository repository;
 
 	@GetMapping("/")
-	public List<Planet> getAllPlanets(){ 
-		return repository.findAll();
+	public ResponseEntity<?> getAllPlanets(){ 
+		ResponseEntity<List<Planet>> response = new ResponseEntity<List<Planet>>(repository.findAll(), HttpStatus.OK);
+		
+		return response;
 	} 
 	
 	@GetMapping("/{id}")
-	public Optional<Planet> findById(@PathVariable(value="id", required = true)	 String id){ 
+	public ResponseEntity<?> findById(@PathVariable(value="id", required = true)	 String id){ 
 		Optional<Planet> tempPlanet = repository.findById(id);
 
-		if(tempPlanet.toString().equals("Optional.empty")) {
-			throw new PlanetNotFoundException("Planet not found with id: " + id);
+		if(!tempPlanet.isPresent()) {
+			throw new PlanetNotFoundException("Planet not found for id: " + id);
 		}
-	
-		return tempPlanet;
+		
+		ResponseEntity<Planet> response = new ResponseEntity<Planet>(tempPlanet.get(), HttpStatus.OK);
+		
+		return response;
 	}
 	
 	@GetMapping("/searchPlanet{name}")
-	public Optional<Planet> getPlanetByName(@RequestParam String name){ 
-		return repository.findByName(name);
+	public ResponseEntity<?> getPlanetByName(@RequestParam String name){
+		Optional<Planet> tempPlanet = repository.findByName(name);
+		
+		if(!tempPlanet.isPresent()) {
+			throw new PlanetNotFoundException("Planet not found for name: " + name);
+		}
+
+		ResponseEntity<Planet> response = new ResponseEntity<Planet>(tempPlanet.get(), HttpStatus.OK);
+		
+		return response;
 	}
 	
 	@PostMapping("/")
-	public String addPlanet(@Valid @RequestBody PlanetIn planetIn){
+	public ResponseEntity<?> addPlanet(@Valid @RequestBody PlanetIn planetIn){
+		
+		Optional<Planet> checkPlanet = repository.findByName(planetIn.getName());
+		if(checkPlanet.isPresent()) {
+			String message = "Planet already exists for name: " + planetIn.getName();
+			ResponseEntity<String> response = new ResponseEntity<String>(message, HttpStatus.CONFLICT);
+			
+			return response;
+		}
 		
 		Planet tempPlanet = new Planet();
 		
@@ -62,12 +84,21 @@ public class PlanetController {
 		
 		repository.save(tempPlanet);
 		
-		return "Planet added with id: " + tempPlanet.getId();
+		ResponseEntity<Planet> response = new ResponseEntity<Planet>(tempPlanet, HttpStatus.CREATED);
+		return response;
 		
 	} 
 	
 	@DeleteMapping("/{id}")
-	public void deletePlanet(@PathVariable(value="id", required = true)	 String id){ 
+	public ResponseEntity<?> deletePlanet(@PathVariable(value="id", required = true) String id){ 
+		Optional<Planet> tempPlanet = repository.findById(id);
+
+		if(!tempPlanet.isPresent()) {
+			throw new PlanetNotFoundException("Planet not found for id: " + id);
+		}
+		
 		repository.deleteById(id);
+		
+		return ResponseEntity.noContent().build();
 	}
 }
