@@ -55,7 +55,7 @@
 
 - Java 8 instalado na máquina
 - Variável de ambiente JAVA_HOME configurada e apontando para o JDK do Java 8
-- MongoDB instalado, configurado.
+- MongoDB instalado, configurado e **rodando**.
 - As configurações de comunicação da api com o MongoDB estão no applications.properties.
 - **_spring.data.mongo.host=localhost_**
 - **_spring.data.mongo.port=27017_**
