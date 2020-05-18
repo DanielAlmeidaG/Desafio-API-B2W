@@ -26,7 +26,7 @@
 ### GET /planets/
 - Retorna todos os planetas cadastrados em formato de lista de json. Caso nenhum esteja cadastrado, retorna uma lista vazia.
 - 200 - Successo.    
-- Ex: `{"id": "5ec1fb3a2249e22b2842509e", "name": "Naboo", "climate": "temperate", "terrain": "rocks", "numberAppearences": 4}
+- Ex: `{"id": "5ec1fb3a2249e22b2842509e", "name": "Naboo", "climate": "temperate", "terrain": "rocks", "numberAppearences": 4}`
 
 ### GET /planets/{id}
 -Busca um planeta usando o seu id  
