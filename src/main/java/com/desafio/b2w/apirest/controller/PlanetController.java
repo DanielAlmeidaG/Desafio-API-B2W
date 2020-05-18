@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +23,7 @@ import com.desafio.b2w.apirest.exception.PlanetNotFoundException;
 import com.desafio.b2w.apirest.model.Planet;
 import com.desafio.b2w.apirest.model.PlanetIn;
 import com.desafio.b2w.apirest.repository.PlanetRepository;
+import com.desafio.b2w.apirest.service.SwapiApiService;
 
 @RestController() 
 @RequestMapping("/planets")
@@ -29,6 +31,8 @@ public class PlanetController {
 	
 	@Autowired  
 	PlanetRepository repository;
+	
+	SwapiApiService swapiService = new SwapiApiService();
 
 	@GetMapping("/")
 	public ResponseEntity<?> getAllPlanets(){ 
@@ -63,7 +67,7 @@ public class PlanetController {
 		return response;
 	}
 	
-	@PostMapping("/")
+	@PostMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> addPlanet(@Valid @RequestBody PlanetIn planetIn){
 		
 		Optional<Planet> checkPlanet = repository.findByName(planetIn.getName());
@@ -80,7 +84,7 @@ public class PlanetController {
 		tempPlanet.setName(planetIn.getName());
 		tempPlanet.setClimate(planetIn.getClimate());
 		tempPlanet.setTerrain(planetIn.getTerrain());
-		tempPlanet.setNumberAppearences(0);
+		tempPlanet.setNumberAppearences(swapiService.getNumberAppearences(planetIn.getName()));
 		
 		repository.save(tempPlanet);
 		
