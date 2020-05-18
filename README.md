@@ -6,9 +6,9 @@
 ## Como usar a Api
 - É necessário possuir o Java e o MongoDB instalados e configurados.
 - As configurações de comunicação da api com o MongoDB estão no applications.properties.
-      **- _spring.data.mongo.host=localhost_**
-      **- _spring.data.mongo.port=27017_**
-      **- _spring.data.mongo.database=mongodb_**
+- **_spring.data.mongo.host=localhost_**
+- **_spring.data.mongo.port=27017_**
+- **_spring.data.mongo.database=mongodb_**
    
 ## Tecnologias 
 - Foi utilizado java 8, Spring Boot 2.2.7, Spring Data MongoDB, Postman.
