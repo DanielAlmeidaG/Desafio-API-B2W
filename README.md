@@ -16,10 +16,10 @@
 ## Funcionalidades Implementadas
 
 - Adicionar um planeta (com nome, clima e terreno). (O numero de aparições em filmes é obtida atráves da api disponibilizada da SWAPI. É permitido inserir um filme não existente na SWAPI, entretanto terá aparições de 0)
--Listar planetas
--Buscar por nome
--Buscar por ID
--Remover planeta
+- Listar planetas
+- Buscar por nome
+- Buscar por ID
+- Remover planeta
 
 ## API endpoints
 
