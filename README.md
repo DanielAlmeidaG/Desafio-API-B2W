@@ -32,3 +32,27 @@
 - Busca um planeta usando o seu id
 - 200 - Successo. 404 - Planeta não encontrado.
 - Ex: `{"id": "5ec1fb3a2249e22b2842509e", "name": "Naboo", "climate": "temperate", "terrain": "rocks", "numberAppearences": 4}`
+
+### GET /planets/searchPlanet?name=Name
+- Busca um planeta usando o seu nome. "name" é um parametro obrigatorio.
+- 200 - Successo. 404 - Planeta não encontrado.
+- Ex: `{"id": "5ec1fb3a2249e22b2842509e", "name": "Naboo", "climate": "temperate", "terrain": "rocks", "numberAppearences": 4}`
+
+
+### POST /planets/
+- Insere um novo planeta.  
+- Enviar um JSON com os campos "name", "climate" e "terrain". Nenhum campo pode ser nulo e o nome do planeta não pode já ter sido salvo. 
+- 201 (Created) - Criado com sucesso. 409 (Conflict) - Já existe um planeta cadastrado com este nome.
+Ex: 
+```
+{
+  "name": "Naboo",
+  "climate": "temperate",
+  "terrain": "rocks"
+}
+```  
+- Ex: `{"id":"5aebc67ce1011035d8c31c0b","name":"Naboo","climate":"temperate","terrain":"rocks","numberAppearancesFilms":4}`
+
+### DELETE /planets/{id}
+- Deleta o planeta identificado pelo id.  
+- 204 (No Content) - Planeta deletado com Successo. 404 - Planeta não encontrado.  
